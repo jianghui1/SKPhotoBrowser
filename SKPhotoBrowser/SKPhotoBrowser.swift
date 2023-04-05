@@ -574,6 +574,7 @@ private extension SKPhotoBrowser {
 
     func configurePaginationView() {
         paginationView = SKPaginationView(frame: view.frame, browser: self)
+        paginationView.isHidden = !SKPhotoBrowserOptions.displayPaginationView
         view.addSubview(paginationView)
     }
     
