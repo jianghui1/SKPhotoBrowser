@@ -10,6 +10,7 @@ import UIKit
 
 class SKActionView: UIView {
     internal weak var browser: SKPhotoBrowser?
+    var counterLabel: UILabel?
     internal var closeButton: SKCloseButton!
     internal var deleteButton: SKDeleteButton!
     
@@ -27,15 +28,21 @@ class SKActionView: UIView {
     convenience init(frame: CGRect, browser: SKPhotoBrowser) {
         self.init(frame: frame)
         self.browser = browser
-
+        
+        backgroundColor = SKActionOptions.backgroundColor
+        
+        configureCounterLabel()
         configureCloseButton()
         configureDeleteButton()
         
-        backgroundColor = SKActionOptions.backgroundColor
+        update(browser.currentPageIndex)
     }
     
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         if let view = super.hitTest(point, with: event) {
+            if let counterLabel = counterLabel, counterLabel.frame.contains(point) {
+                return view
+            }
             if closeButton.frame.contains(point) || deleteButton.frame.contains(point) {
                 return view
             }
@@ -49,6 +56,16 @@ class SKActionView: UIView {
         setNeedsDisplay()
     }
 
+    func update(_ currentPageIndex: Int) {
+        guard let browser = browser else { return }
+        
+        if browser.photos.count > 1 {
+            counterLabel?.text = "\(currentPageIndex + 1) / \(browser.photos.count)"
+        } else {
+            counterLabel?.text = nil
+        }
+    }
+    
     func updateCloseButton(image: UIImage, size: CGSize? = nil) {
         configureCloseButton(image: image, size: size)
     }
@@ -93,6 +110,21 @@ class SKActionView: UIView {
 }
 
 extension SKActionView {
+    func configureCounterLabel() {
+        guard SKPhotoBrowserOptions.displayCounterLabel && SKCounterOptions.counterLocaton == .top else { return }
+        
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
+        label.center = CGPoint(x: frame.width / 2, y: 20 + (frame.height) / 2 + SKCounterOptions.counterExtraMarginY)
+        label.textAlignment = .center
+        label.backgroundColor = .clear
+        label.shadowColor = SKActionOptions.textShadowColor
+        label.shadowOffset = CGSize(width: 0.0, height: 1.0)
+        label.font = SKActionOptions.font
+        label.textColor = SKActionOptions.textColor
+        addSubview(label)
+        counterLabel = label
+    }
+    
     func configureCloseButton(image: UIImage? = nil, size: CGSize? = nil) {
         if closeButton == nil {
             closeButton = SKCloseButton(frame: .zero)

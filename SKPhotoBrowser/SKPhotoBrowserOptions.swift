@@ -74,10 +74,23 @@ public struct SKCaptionOptions {
 
 public struct SKActionOptions {
     public static var backgroundColor: UIColor = .clear
+    public static var textColor: UIColor = .white
+    public static var font: UIFont = .systemFont(ofSize: 17.0)
+    public static var textShadowColor: UIColor = .black
 }
 
 public struct SKToolbarOptions {
     public static var textColor: UIColor = .white
     public static var font: UIFont = .systemFont(ofSize: 17.0)
     public static var textShadowColor: UIColor = .black
+}
+
+public struct SKCounterOptions {
+    public enum CounterLocation {
+        case top
+        case bottom
+    }
+    
+    public static var counterLocaton: CounterLocation = .bottom
+    public static var counterExtraMarginY: CGFloat = 20
 }

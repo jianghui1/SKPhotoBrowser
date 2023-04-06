@@ -289,6 +289,7 @@ public extension SKPhotoBrowser {
             if !isViewActive {
                 pagingScrollView.tilePages()
             }
+            actionView.update(currentPageIndex)
             paginationView.update(currentPageIndex)
         }
         self.initPageIndex = currentPageIndex
@@ -540,6 +541,7 @@ internal extension SKPhotoBrowser {
             if currentPageIndex != 0 {
                 gotoPreviousPage()
             }
+            actionView.update(currentPageIndex)
             paginationView.update(currentPageIndex)
             
         } else if photos.count == 1 {
@@ -630,6 +632,7 @@ extension SKPhotoBrowser: UIScrollViewDelegate {
         
         if currentPageIndex != previousCurrentPage {
             delegate?.didShowPhotoAtIndex?(self, index: currentPageIndex)
+            actionView.update(currentPageIndex)
             paginationView.update(currentPageIndex)
         }
     }

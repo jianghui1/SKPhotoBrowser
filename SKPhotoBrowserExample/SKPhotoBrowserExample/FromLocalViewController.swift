@@ -29,10 +29,15 @@ class FromLocalViewController: UIViewController, UICollectionViewDataSource, UIC
         SKPhotoBrowserOptions.displayAction = false
         SKPhotoBrowserOptions.displayPaginationView = false
         SKActionOptions.backgroundColor = UIColor(red: 237 / 255.0, green: 237 / 255.0, blue: 237 / 255.0, alpha: 1)
+        SKActionOptions.textColor = UIColor(red: 31 / 255.0, green: 31 / 255.0, blue: 31 / 255.0, alpha: 1)
+        SKActionOptions.font = UIFont.systemFont(ofSize: 20, weight: .medium)
+        SKActionOptions.textShadowColor = .clear
         SKButtonOptions.closeButtonPadding = .init(x: 5, y: 35)
         SKButtonOptions.closeButtonInsets = .zero
         SKButtonOptions.deleteButtonPadding = .init(x: 5, y: 35)
         SKButtonOptions.deleteButtonInsets = .zero
+        SKCounterOptions.counterLocaton = .top
+        SKCounterOptions.counterExtraMarginY = 35
 
         setupTestData()
         setupCollectionView()
