@@ -24,11 +24,9 @@ class SKButton: UIButton {
     fileprivate var marginY: CGFloat = 0
     fileprivate var extraMarginY: CGFloat = 20 //NOTE: dynamic to static 
     
-    func setup(_ imageName: String) {
+    func setup(_ imageName: String, insets: UIEdgeInsets? = nil) {
         backgroundColor = .clear
-        imageEdgeInsets = insets
-        translatesAutoresizingMaskIntoConstraints = true
-        autoresizingMask = [.flexibleBottomMargin, .flexibleLeftMargin, .flexibleRightMargin, .flexibleTopMargin]
+        imageEdgeInsets = insets == nil ? self.insets : insets!
         
         setImage(UIImage.bundledImage(named: imageName), for: .normal)
     }
@@ -81,7 +79,7 @@ class SKCloseButton: SKImageButton {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setup(imageName)
+        setup(imageName, insets: SKButtonOptions.closeButtonInsets)
         showFrame = CGRect(x: marginX, y: marginY, width: size.width, height: size.height)
         hideFrame = CGRect(x: marginX, y: -marginY, width: size.width, height: size.height)
     }
@@ -108,7 +106,7 @@ class SKDeleteButton: SKImageButton {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setup(imageName)
+        setup(imageName, insets: SKButtonOptions.deleteButtonInsets)
         showFrame = CGRect(x: marginX, y: marginY, width: size.width, height: size.height)
         hideFrame = CGRect(x: marginX, y: -marginY, width: size.width, height: size.height)
     }

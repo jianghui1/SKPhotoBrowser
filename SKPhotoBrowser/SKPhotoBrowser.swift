@@ -139,7 +139,7 @@ open class SKPhotoBrowser: UIViewController {
         toolbar.frame = frameForToolbarAtOrientation()
         
         // action
-        actionView.updateFrame(frame: view.frame)
+        actionView.updateFrame(frame: frameForActionViewAtOrientation())
 
         // paging
         switch SKCaptionOptions.captionLocation {
@@ -392,6 +392,16 @@ internal extension SKPhotoBrowser {
 // MARK: - Internal Function For Frame Calc
 
 internal extension SKPhotoBrowser {
+    func frameForActionViewAtOrientation() -> CGRect {
+        let height: CGFloat = {
+            if #available(iOS 11.0, *) {
+                return view.safeAreaInsets.top
+            }
+            return 20
+        }()
+        return CGRect(x: 0, y: 0, width: view.frame.width, height: height + 44)
+    }
+    
     func frameForToolbarAtOrientation() -> CGRect {
         let offset: CGFloat = {
             if #available(iOS 11.0, *) {
@@ -568,7 +578,7 @@ private extension SKPhotoBrowser {
     }
     
     func configureActionView() {
-        actionView = SKActionView(frame: view.frame, browser: self)
+        actionView = SKActionView(frame: frameForActionViewAtOrientation(), browser: self)
         view.addSubview(actionView)
     }
 

@@ -53,6 +53,8 @@ public struct SKPhotoBrowserOptions {
 public struct SKButtonOptions {
     public static var closeButtonPadding: CGPoint = CGPoint(x: 5, y: 20)
     public static var deleteButtonPadding: CGPoint = CGPoint(x: 5, y: 20)
+    public static var closeButtonInsets: UIEdgeInsets?
+    public static var deleteButtonInsets: UIEdgeInsets?
 }
 
 public struct SKCaptionOptions {
@@ -68,6 +70,10 @@ public struct SKCaptionOptions {
     public static var font: UIFont = .systemFont(ofSize: 17.0)
     public static var backgroundColor: UIColor = .clear
     public static var captionLocation: CaptionLocation = .basic
+}
+
+public struct SKActionOptions {
+    public static var backgroundColor: UIColor = .clear
 }
 
 public struct SKToolbarOptions {

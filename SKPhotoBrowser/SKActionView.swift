@@ -30,6 +30,8 @@ class SKActionView: UIView {
 
         configureCloseButton()
         configureDeleteButton()
+        
+        backgroundColor = SKActionOptions.backgroundColor
     }
     
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
@@ -56,12 +58,16 @@ class SKActionView: UIView {
     }
     
     func animate(hidden: Bool) {
+        let selfFrame = CGRect(x: frame.minX, y: frame.minY + (hidden ? -1 : 1) * frame.height, width: frame.width, height: frame.height)
         let closeFrame: CGRect = hidden ? closeButton.hideFrame : closeButton.showFrame
         let deleteFrame: CGRect = hidden ? deleteButton.hideFrame : deleteButton.showFrame
         UIView.animate(withDuration: 0.35,
                        animations: { () -> Void in
                         let alpha: CGFloat = hidden ? 0.0 : 1.0
 
+                        self.alpha = alpha
+                        self.frame = selfFrame
+            
                         if SKPhotoBrowserOptions.displayCloseButton {
                             self.closeButton.alpha = alpha
                             self.closeButton.frame = closeFrame

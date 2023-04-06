@@ -23,10 +23,16 @@ class FromLocalViewController: UIViewController, UICollectionViewDataSource, UIC
 //        SKPhotoBrowserOptions.displayCounterLabel = true
 //        SKPhotoBrowserOptions.displayBackAndForwardButton = true
         
+        // style 1
         SKPhotoBrowserOptions.displayStatusbar = true
         SKPhotoBrowserOptions.displayDeleteButton = true
         SKPhotoBrowserOptions.displayAction = false
         SKPhotoBrowserOptions.displayPaginationView = false
+        SKActionOptions.backgroundColor = UIColor(red: 237 / 255.0, green: 237 / 255.0, blue: 237 / 255.0, alpha: 1)
+        SKButtonOptions.closeButtonPadding = .init(x: 5, y: 35)
+        SKButtonOptions.closeButtonInsets = .zero
+        SKButtonOptions.deleteButtonPadding = .init(x: 5, y: 35)
+        SKButtonOptions.deleteButtonInsets = .zero
 
         setupTestData()
         setupCollectionView()
@@ -106,6 +112,15 @@ extension FromLocalViewController {
     }
 
     func viewForPhoto(_ browser: SKPhotoBrowser, index: Int) -> UIView? {
+        
+        // style 1
+        if let back = UIImage(named: "back-gray") {
+            browser.updateCloseButton(back)
+        }
+        if let delete = UIImage(named: "delete") {
+            browser.updateDeleteButton(delete)
+        }
+        
         return collectionView.cellForItem(at: IndexPath(item: index, section: 0))
     }
     
