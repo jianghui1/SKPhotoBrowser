@@ -28,6 +28,7 @@ open class SKPhoto: NSObject, SKPhotoProtocol {
     open var contentMode: UIView.ContentMode = .scaleAspectFill
     open var shouldCachePhotoURLImage: Bool = false
     open var photoURL: String!
+    open var loadImageBlock: ((URL, @escaping (UIImage?, Error?) -> Void) -> Void)?
 
     override init() {
         super.init()
@@ -72,6 +73,21 @@ open class SKPhoto: NSObject, SKPhotoProtocol {
     open func loadUnderlyingImageAndNotify() {
         guard photoURL != nil, let URL = URL(string: photoURL) else { return }
         
+        if let loadImageBlock = loadImageBlock {
+            loadImageBlock(URL) { image, error in
+                guard error == nil else {
+                    DispatchQueue.main.async {
+                        self.loadUnderlyingImageComplete()
+                    }
+                    return
+                }
+                DispatchQueue.main.async {
+                    self.underlyingImage = image
+                    self.loadUnderlyingImageComplete()
+                }
+            }
+            return
+        }
         if self.shouldCachePhotoURLImage {
             if SKCache.sharedCache.imageCache is SKRequestResponseCacheable {
                 let request = URLRequest(url: URL)

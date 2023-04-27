@@ -40,9 +40,11 @@ class FromLocalViewController: UIViewController, UICollectionViewDataSource, UIC
 //        SKCounterOptions.counterExtraMarginY = 35
 
         // style 2
-        SKPhotoBrowserOptions.displayStatusbar = true
+        SKPhotoBrowserOptions.displayStatusbar = false
+        SKPhotoBrowserOptions.displayCloseButton = false
         SKPhotoBrowserOptions.displayAction = false
         SKPhotoBrowserOptions.displayPaginationView = false
+        SKPhotoBrowserOptions.enableSingleTapDismiss = true
         
         setupTestData()
         setupCollectionView()

@@ -10,6 +10,9 @@ import UIKit
 import SKPhotoBrowser
 import SDWebImage
 
+private let imageCache = SDImageCache(namespace: "com.suzuki.custom.cache")
+private let imageManager = SDWebImageManager(cache: imageCache, loader: SDImageLoadersManager.shared)
+
 class FromWebViewController: UIViewController, SKPhotoBrowserDelegate {
     var images = [SKPhotoProtocol]()
     
@@ -55,12 +58,21 @@ extension FromWebViewController {
 
 private extension FromWebViewController {
     func createWebPhotos() -> [SKPhotoProtocol] {
-        return (0..<10).map { (i: Int) -> SKPhotoProtocol in
-            let photo = SKPhoto.photoWithImageURL("https://placehold.jp/15\(i)x15\(i).png")
-            photo.caption = caption[i%10]
-            photo.shouldCachePhotoURLImage = true
-            return photo
+//        var array = (0..<10).map { (i: Int) -> SKPhotoProtocol in
+//            let photo = SKPhoto.photoWithImageURL("https://placehold.jp/15\(i)x15\(i).png")
+//            photo.caption = caption[i%10]
+//            photo.shouldCachePhotoURLImage = true
+//            return photo
+//        }
+        let photo = SKPhoto.photoWithImageURL("https://guiji-cdn.imuye.cn/app/locus/4-DMVOZC1I-locusImg-0.jpg")
+        photo.loadImageBlock = { url, completion in
+            imageManager.loadImage(with: url, progress: nil) { image, _, error, _, _, _ in
+                completion(image, error)
+            }
         }
+//        array.append(photo)
+//        return array
+        return [photo]
     }
 
     func createWebGifPhotos() -> [SKPhotoProtocol] {
@@ -84,7 +96,7 @@ class CustomImageCache: SKImageCacheable {
     var cache: SDImageCache?
     
     init() {
-        let cache = SDImageCache(namespace: "com.suzuki.custom.cache")
+        let cache = imageCache
     }
 
     func imageForKey(_ key: String) -> UIImage? { return cache?.imageFromDiskCache(forKey: key) }
