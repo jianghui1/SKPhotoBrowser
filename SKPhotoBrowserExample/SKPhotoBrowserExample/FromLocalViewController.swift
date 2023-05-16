@@ -24,27 +24,29 @@ class FromLocalViewController: UIViewController, UICollectionViewDataSource, UIC
 //        SKPhotoBrowserOptions.displayBackAndForwardButton = true
         
         // style 1
-//        SKPhotoBrowserOptions.displayStatusbar = true
-//        SKPhotoBrowserOptions.displayDeleteButton = true
-//        SKPhotoBrowserOptions.displayAction = false
-//        SKPhotoBrowserOptions.displayPaginationView = false
-//        SKActionOptions.backgroundColor = UIColor(red: 237 / 255.0, green: 237 / 255.0, blue: 237 / 255.0, alpha: 1)
-//        SKActionOptions.textColor = UIColor(red: 31 / 255.0, green: 31 / 255.0, blue: 31 / 255.0, alpha: 1)
-//        SKActionOptions.font = UIFont.systemFont(ofSize: 20, weight: .medium)
-//        SKActionOptions.textShadowColor = .clear
-//        SKButtonOptions.closeButtonPadding = .init(x: 5, y: 35)
-//        SKButtonOptions.closeButtonInsets = .zero
-//        SKButtonOptions.deleteButtonPadding = .init(x: 5, y: 35)
-//        SKButtonOptions.deleteButtonInsets = .zero
-//        SKCounterOptions.counterLocaton = .top
-//        SKCounterOptions.counterExtraMarginY = 35
-
-        // style 2
-        SKPhotoBrowserOptions.displayStatusbar = false
-        SKPhotoBrowserOptions.displayCloseButton = false
+        SKPhotoBrowserOptions.displayStatusbar = true
+        SKPhotoBrowserOptions.displayDeleteButton = true
         SKPhotoBrowserOptions.displayAction = false
         SKPhotoBrowserOptions.displayPaginationView = false
-        SKPhotoBrowserOptions.enableSingleTapDismiss = true
+        SKActionOptions.backgroundColor = UIColor(red: 237 / 255.0, green: 237 / 255.0, blue: 237 / 255.0, alpha: 1)
+        SKActionOptions.textColor = UIColor(red: 31 / 255.0, green: 31 / 255.0, blue: 31 / 255.0, alpha: 1)
+        SKActionOptions.font = UIFont.systemFont(ofSize: 20, weight: .medium)
+        SKActionOptions.textShadowColor = .clear
+        SKButtonOptions.closeButtonPadding = .init(x: 5, y: 35)
+        SKButtonOptions.closeButtonInsets = .zero
+        SKButtonOptions.deleteButtonPadding = .init(x: 5, y: 35)
+        SKButtonOptions.deleteButtonInsets = .zero
+        SKCounterOptions.counterLocaton = .top
+        SKCounterOptions.counterExtraMarginY = 35
+        SKPhotoBrowserOptions.longPhotoWidthMatchScreen = true
+
+        // style 2
+//        SKPhotoBrowserOptions.displayStatusbar = false
+//        SKPhotoBrowserOptions.displayCloseButton = false
+//        SKPhotoBrowserOptions.displayAction = false
+//        SKPhotoBrowserOptions.displayPaginationView = false
+//        SKPhotoBrowserOptions.enableSingleTapDismiss = true
+//        SKPhotoBrowserOptions.longPhotoWidthMatchScreen = true
         
         setupTestData()
         setupCollectionView()
@@ -70,7 +72,7 @@ extension FromLocalViewController {
             return UICollectionViewCell()
         }
         
-        cell.exampleImageView.image = UIImage(named: "image\((indexPath as NSIndexPath).row % 10).jpg")
+        cell.exampleImageView.image = UIImage(named: "image\((indexPath as NSIndexPath).row % 12).jpg")
         return cell
     }
 }
@@ -126,12 +128,12 @@ extension FromLocalViewController {
     func viewForPhoto(_ browser: SKPhotoBrowser, index: Int) -> UIView? {
         
         // style 1
-//        if let back = UIImage(named: "back-gray") {
-//            browser.updateCloseButton(back)
-//        }
-//        if let delete = UIImage(named: "delete") {
-//            browser.updateDeleteButton(delete)
-//        }
+        if let back = UIImage(named: "back-gray") {
+            browser.updateCloseButton(back)
+        }
+        if let delete = UIImage(named: "delete") {
+            browser.updateDeleteButton(delete)
+        }
         
         return collectionView.cellForItem(at: IndexPath(item: index, section: 0))
     }
@@ -154,8 +156,8 @@ private extension FromLocalViewController {
     }
     
     func createLocalPhotos() -> [SKPhotoProtocol] {
-        return (0..<10).map { (i: Int) -> SKPhotoProtocol in
-            let photo = SKPhoto.photoWithImage(UIImage(named: "image\(i%10).jpg")!)
+        return (0..<12).map { (i: Int) -> SKPhotoProtocol in
+            let photo = SKPhoto.photoWithImage(UIImage(named: "image\(i%12).jpg")!)
 //            photo.caption = caption[i%10]
             return photo
         }
