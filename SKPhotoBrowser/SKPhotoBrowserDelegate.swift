@@ -73,6 +73,16 @@ import UIKit
     @objc optional func viewForPhoto(_ browser: SKPhotoBrowser, index: Int) -> UIView?
     
     /**
+     Asks the delegate for the index for a certain photo. Needed to detemine the animation when presenting/closing the browser.
+     
+     - Parameter browser: reference to the calling SKPhotoBrowser
+     - Parameter index: the index of the removed photo
+     
+     - Returns: the index to animate to
+     */
+    @objc optional func dismissToIndexForPhoto(_ browser: SKPhotoBrowser, index: Int) -> Int
+    
+    /**
      Tells the delegate that the controls view toggled visibility
      
      - Parameter browser: reference to the calling SKPhotoBrowser
@@ -88,3 +98,8 @@ import UIKit
     @objc optional func captionViewForPhotoAtIndex(index: Int) -> SKCaptionView?
 }
 
+extension SKPhotoBrowserDelegate {
+    func dismissToIndexForPhoto(_ browser: SKPhotoBrowser, index: Int) -> Int {
+        index
+    }
+}

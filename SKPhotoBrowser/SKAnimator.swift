@@ -16,6 +16,7 @@ import UIKit
 class SKAnimator: NSObject, SKPhotoBrowserAnimatorDelegate {
     fileprivate let window = UIApplication.shared.preferredApplicationWindow
     fileprivate var resizableImageView: UIImageView?
+    fileprivate var dismissToImageView: UIImageView?
     fileprivate var finalImageViewFrame: CGRect = .zero
     
     internal lazy var backgroundView: UIView = {
@@ -118,6 +119,20 @@ class SKAnimator: NSObject, SKPhotoBrowserAnimatorDelegate {
                 resizableImageView.layer.masksToBounds = true
                 resizableImageView.addCornerRadiusAnimation(0, to: view.layer.cornerRadius, duration: duration)
             }
+            if let index = browser.delegate?.dismissToIndexForPhoto?(browser, index: browser.currentPageIndex), index != browser.currentPageIndex {
+                let image = browser.photoAtIndex(index).underlyingImage
+                dismissToImageView = UIImageView(image: image?.rotateImageByOrientation())
+                dismissToImageView?.frame = frame
+                dismissToImageView?.alpha = 0
+                dismissToImageView?.clipsToBounds = true
+                dismissToImageView?.contentMode = photo.contentMode
+                if let view = senderViewForAnimation, view.layer.cornerRadius != 0 {
+                    let duration = (animationDuration * Double(animationDamping))
+                    dismissToImageView?.layer.masksToBounds = true
+                    dismissToImageView?.addCornerRadiusAnimation(0, to: view.layer.cornerRadius, duration: duration)
+                }
+                resizableImageView.superview?.insertSubview(dismissToImageView!, belowSubview: resizableImageView)
+            }
         }
         dismissAnimation(browser)
     }
@@ -198,10 +213,16 @@ private extension SKAnimator {
             animations: {
                 self.backgroundView.alpha = 0.0
                 self.resizableImageView?.layer.frame = finalFrame
+                if self.dismissToImageView != nil {
+                    self.dismissToImageView?.layer.frame = finalFrame
+                    self.dismissToImageView?.alpha = 1
+                    self.resizableImageView?.alpha = 0.0
+                }
             },
             completion: { (_) -> Void in
                 browser.dismissPhotoBrowser(animated: true) {
                     self.resizableImageView?.removeFromSuperview()
+                    self.dismissToImageView?.removeFromSuperview()
                     self.backgroundView.removeFromSuperview()
                 }
             })

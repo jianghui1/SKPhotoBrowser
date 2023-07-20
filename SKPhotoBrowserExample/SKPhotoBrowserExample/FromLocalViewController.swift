@@ -135,7 +135,12 @@ extension FromLocalViewController {
             browser.updateDeleteButton(delete)
         }
         
-        return collectionView.cellForItem(at: IndexPath(item: index, section: 0))
+//        return collectionView.cellForItem(at: IndexPath(item: index, section: 0))
+        return collectionView.cellForItem(at: IndexPath(item: 0, section: 0))
+    }
+    
+    func dismissToIndexForPhoto(_ browser: SKPhotoBrowser, index: Int) -> Int {
+        0
     }
     
     func captionViewForPhotoAtIndex(index: Int) -> SKCaptionView? {
