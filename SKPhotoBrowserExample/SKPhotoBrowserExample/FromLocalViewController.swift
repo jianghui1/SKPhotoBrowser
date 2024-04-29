@@ -146,6 +146,10 @@ extension FromLocalViewController {
     func captionViewForPhotoAtIndex(index: Int) -> SKCaptionView? {
         return nil
     }
+    
+    func longPressAtPageIndex(_ index: Int) {
+        print("long press at \(index)")
+    }
 }
 
 // MARK: - private

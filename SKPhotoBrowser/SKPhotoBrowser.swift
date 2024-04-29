@@ -351,6 +351,10 @@ public extension SKPhotoBrowser {
         delegate?.controlsVisibilityToggled?(self, hidden: areControlsHidden())
     }
     
+    func longPress() {
+        delegate?.longPressAtPageIndex?(currentPageIndex)
+    }
+    
     func areControlsHidden() -> Bool {
         return paginationView.alpha == 0.0
     }

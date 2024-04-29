@@ -96,6 +96,13 @@ import UIKit
      - Parameter index: the index of the photo
      */
     @objc optional func captionViewForPhotoAtIndex(index: Int) -> SKCaptionView?
+    
+    /**
+     Tells the delegate the browser did long press
+     
+     - Parameter index: the index of the current photo
+     */
+    @objc optional func longPressAtPageIndex(_ index: Int)
 }
 
 extension SKPhotoBrowserDelegate {

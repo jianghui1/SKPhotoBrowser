@@ -304,6 +304,10 @@ extension SKZoomingScrollView: SKDetectingImageViewDelegate {
     func handleImageViewDoubleTap(_ touchPoint: CGPoint) {
         handleDoubleTap(touchPoint)
     }
+    
+    func handleImageViewLongPress(_ touchPoint: CGPoint) {
+        browser?.longPress()
+    }
 }
 
 private extension SKZoomingScrollView {
